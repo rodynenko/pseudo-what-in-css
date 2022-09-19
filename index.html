@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pseudo-what in CSS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="green-theme/styles/styles.css">
+    <link rel="stylesheet" href="green-theme/github.min.css">
+    <script defer="defer" src="/index.js"></script>
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+        <h1>Pseudo-<em>what</em> in CSS</h1>
+        <p>Taras Rodynenko</p>
+    </header>
+
+    <section class="slide title">
+        <h2>Pseudo-<em>what</em> in CSS</h2>
+    </section>
+
+    <section class="slide">
+        <ul class="shout">
+            <li class="next">Pseudo-elements</li>
+            <li class="next">Pseudo-classes</li>
+            <li class="next">Pseudo-class functions</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Pseudo-elements</h2>
+        <p>It is a keyword added to a selector that lets you style a specific part of the selected element(s).</p>
+        <pre class="cover">
+            <code class="language-css">
+h1::first-letter,
+h1::after,
+h1::selection {}
+            </code>
+        </pre>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">Pseudo-elements on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2><code>::after</code>/<code>::before</code></h2>
+
+    </section>
+
+    <section class="slide">
+        <h2><code>::first-letter</code>/<code>::first-line</code></h2>
+        <p class="first-letter">"F,irst letter of this line.</p>
+        <p class="first-line">And first line of the content we can write here with <span>some
+                span.</span>
+        </p>
+        <p class="note note_bottom">⚠️ Works only for block elements with inlined children, and have reduced list of allowed properties</p>
+        <style>
+            .first-letter::first-letter { color: red; font-weight: bold; margin-right: 10px; }
+            .first-line { white-space: pre;}
+            .first-line::first-line { color: red; font-weight: bold; }
+        </style>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">Pseudo-elements on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2><code>::placeholder</code></h2>
+        <p><input class="placeholder" placeholder="my magical placeholder"/></p>
+        <style>
+            .placeholder {}
+            .placeholder::placeholder { }
+        </style>
+    </section>
+
+    <section class="slide">
+        <h2><code>::marker</code></h2>
+        <p>
+            <ul>
+                <li class="marker-item">list item 1</li>
+                <li class="marker-item">list item 2</li>
+            </ul>
+            <div class="marker-item">Some regular DIV or ::before/::after with <code>display: list-item</code></div>
+        </p>
+        <p class="note note_bottom">⚠️ Very reduced list of CSS properties to edit</p>
+        <style>
+            .marker-item { display: list-item; }
+            .marker-item::before { content: none!important; }
+            .marker-item::marker { display: inline-block; content: '😄mrk'; color: red; font-size: 1.2em; }
+        </style>
+        <div class="copyright">
+            <a href="https://www.w3.org/TR/css-pseudo-4/#marker-pseudo">Marker-pseudo on W3C Working draft</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2><code>::file-selector-button</code></h2>
+        <p><input type="file" class="file-selector-button" /></p>
+        <img class="cover width" style="top:60%;" src="/images/file-selector-button.png" alt="" />
+        <style>
+            .file-selector-button::file-selector-button {
+                display: inline-block;
+                font-size: 2rem;
+                border-radius: 1rem;
+                background-color: green;
+                color: white;
+                box-shadow: none;
+                border: none;
+                cursor: pointer;
+                transition: transform .5s ease-in-out;
+            }
+            .file-selector-button::file-selector-button:hover { transform: translateY(-8px);}
+        </style>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::file-selector-button">File-selector-button on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2><code>::backdrop</code></h2>
+        <p><button id="backdrop-button">Open dialog</button></p>
+        <dialog id="dialog">
+            Some awesome dialog
+            <button id="backdrop-button-close">close</button>
+        </dialog>
+        <style>
+            #dialog::backdrop {
+                transform: scale(0.5)rotate(45deg);
+            }
+        </style>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::backdrop">Backdrop on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide title">
+        <h2>Highlight pseudo-elements</h2>
+    </section>
+
+    <section class="slide">
+        <h2><code>::selection</code></h2>
+        <p class="selection">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas blandit mi ut faucibus luctus. Cras sed nibh sapien. Maecenas aliquam turpis a est euismod, nec fringilla enim ultrices. Etiam ut augue porttitor, venenatis metus sit amet, efficitur dolor. Donec ut turpis massa. Duis eu neque tempor, venenatis lacus non, lobortis tellus. </p>
+        <style>
+            .selection::selection {
+                background-color: var(--color-mint-green);
+            }
+        </style>
+    </section>
+
+    <section class="slide">
+        <h2><code>::target-text</code></h2>
+        <p><a target="_blank" rel="noopener" href="https://www.dnb.no/lan#:~:text=Hva%20vil%20boligl%C3%A5net%20koste%20deg%3F">https://www.dnb.no/lan#:~:text=Hva%20vil%20boligl%C3%A5net%20koste%20deg%3F</a></p>
+        <img class="cover width" style="top: 60%;" src="/images/text-target.png" alt="" />
+        <div class="copyright">
+            <a href="https://wicg.github.io/scroll-to-text-fragment/">Text Fragments on W3C</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2><code>::grammar-error</code> / <code>::spelling-error</code></h2>
+        <textarea class="textarea" row="5">blablabla error</textarea>
+        <img class="cover width" style="top: 75%;" src="/images/grammar-error.png" alt="" />
+        <style>.textarea{ width: 100%; font-size: 1.5rem; }</style>
+    </section>
+
+    <section class="slide">
+        <h2>Pseudo-classes</h2>
+        <p>A pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s).</p>
+        <pre class="cover">
+            <code class="language-css">
+h1:hover,
+h1:empty,
+h1:target {}
+            </code>
+        </pre>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Based on user actions</h2>
+        <ul>
+            <li><code>:hover</code></li>
+            <li><code>:focus</code></li>
+            <li><code>:focus-within</code></li>
+            <li><code>:focus-visible</code></li>
+            <li><code>:active</code></li>
+        </ul>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Based on tree structure</h2>
+        <ul>
+            <li><code>:root</code></li>
+            <li><code>:empty</code></li>
+            <li><code>:only-child</code></li>
+            <li><code>:only-of-type</code></li>
+            <li><code>:nth-/:nth-last/:last-/:first -child</code></li>
+            <li><code>:nth-/:nth-last/:last-/:first -of-type</code></li>
+        </ul>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Based on tree structure</h2>
+        <ul>
+            <li><code>:root</code></li>
+            <li><code>:empty</code></li>
+            <li><code>:only-child</code></li>
+            <li><code>:only-of-type</code></li>
+            <li><code>:nth-/:nth-last/:last-/:first -child</code></li>
+            <li><code>:nth-/:nth-last/:last-/:first -of-type</code></li>
+        </ul>
+        <div class="copyright">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
+        </div>
+    </section>
+
+    <footer class="badge">
+        <a href="https://github.com/shower/shower">Fork me on GitHub</a>
+    </footer>
+
+    <div class="progress"></div>
+
+    <script src="node_modules/@shower/core/dist/shower.js"></script>
+    <!-- Copyright © 2022 Taras Rodynenko -->
+
+</body>
+</html>
