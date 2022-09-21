@@ -11,6 +11,11 @@
         .shower {
             --slide-ratio: calc(16 / 9);
         }
+
+        @keyframes rotate {
+          0% { transform: rotate(0); color: blue; }
+          100% { transform: rotate(360deg); color: green; }
+        }
     </style>
 </head>
 <body class="shower list">
@@ -28,20 +33,30 @@
         <ul class="shout">
             <li class="next">Pseudo-elements</li>
             <li class="next">Pseudo-classes</li>
-            <li class="next">Pseudo-class functions</li>
+            <li class="next">Functional pseudo-classes</li>
         </ul>
     </section>
 
     <section class="slide">
+      <ul class="shout">
+          <li>Pseudo-elements</li>
+          <li style="text-decoration: line-through;">Pseudo-classes</li>
+          <li style="text-decoration: line-through;">Functional pseudo-classes</li>
+      </ul>
+  </section>
+
+    <section class="slide">
         <h2>Pseudo-elements</h2>
         <p>It is a keyword added to a selector that lets you style a specific part of the selected element(s).</p>
-        <pre class="cover">
+        <pre class="cover" style="margin-top: 56px;">
             <code class="language-css">
 h1::first-letter,
+h1::first-line,
 h1::after,
-h1::selection {}
+h1::before {}
             </code>
         </pre>
+        <p class="note note_bottom">Pseudo-elements should be used with <code>::</code> notation, but it is not so clear</p>
         <div class="copyright">
             <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">Pseudo-elements on MDN</a>
         </div>
@@ -49,7 +64,62 @@ h1::selection {}
 
     <section class="slide">
         <h2><code>::after</code>/<code>::before</code></h2>
+        <p>Swiss knife for any troubles</p>
+        <ul>
+          <li>They brings you opportunity to feel all power of <code>content</code> property.</li>
+          <li>Additional elements without a symbol in HTML</li>
+        </ul>
+        <div class="after-before">Before and After</div>
+        <p class="note note_bottom">⚠️ They are not visible for accesability tree. Hard to manipulate from JS.</p>
+        <style>
+          .after-before { position: relative; }
+          .after-before:before {
+            content: 'Before';
+            display: block;
+            color: red;
+          }
+          .after-before:after {
+            content: 'After';
+            display: block;
+            color: green;
+          }
+        </style>
+    </section>
 
+    <section class="slide">
+      <h2>Some Javascript</h2>
+      <p>What can you do with pseudo element <code>::after</code> from JS?</p>
+      <p class="next"><b>Not much</b></p>
+      <p class="next">Pseudo-elements are not part of the DOM, so you can just play around with Styles and CSS</p>
+      <pre class="next">
+        <code>
+1. window.getComputedStyle(HTMLElement, pseudoElement)
+2. Element.pseudo('type') // method under discussion
+        </code>
+      </pre>
+      <div class="copyright">
+        <a target="_blank" href="https://www.w3.org/TR/css-pseudo-4/#window-interface">pseudo() method of the Element interface</a>
+      </div>
+    </section>
+
+    <section class="slide">
+      <pre class="cover">
+        <code class="javascript">
+&lt;style&gt;.demo {}&lt;/style&gt;
+&lt;div class="demo"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  const demo = document.querySelector('.demo')
+
+  // what is result
+  window.getComputedStyle(demo, ':after')?.content 
+&lt;/script&gt;
+        </code>
+      </pre>
+      <p class="note note_bottom next">'none'</p>
+      <div class="copyright">
+        <a target="_blank" href="https://jsfiddle.net/yuqhkLg7/1/">Check it out on Fiddle</a>
+      </div>
     </section>
 
     <section class="slide">
@@ -58,23 +128,30 @@ h1::selection {}
         <p class="first-line">And first line of the content we can write here with <span>some
                 span.</span>
         </p>
-        <p class="note note_bottom">⚠️ Works only for block elements with inlined children, and have reduced list of allowed properties</p>
+        <p class="note note_bottom">⚠️ Works only for block elements with inline children, and have reduced list of allowed properties</p>
         <style>
-            .first-letter::first-letter { color: red; font-weight: bold; margin-right: 10px; }
-            .first-line { white-space: pre;}
-            .first-line::first-line { color: red; font-weight: bold; }
+            .first-letter::first-letter { box-shadow: 0 0 2px gray; color: red; font-weight: bold; margin-right: 15px; animation: rotate .3s ease-in-out; }
+            .first-line { white-space: pre; display: block; }
+            .first-line::first-line { color: red; font-weight: bold; animation: rotate .3s ease-in-out; }
         </style>
         <div class="copyright">
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements">Pseudo-elements on MDN</a>
+            <a target="_blank" href="https://www.w3.org/TR/css-pseudo-4">CSS Pseudo-Elements Module Level 4</a>
         </div>
     </section>
 
     <section class="slide">
         <h2><code>::placeholder</code></h2>
         <p><input class="placeholder" placeholder="my magical placeholder"/></p>
+        <p class="note note_bottom">⚠️ There is no clear answer how placeholder should look like when it comes to contrast questions.</p>
         <style>
-            .placeholder {}
-            .placeholder::placeholder { }
+            .placeholder {
+              font-size: 1.5rem;
+              width: 100%;
+            }
+            .placeholder::placeholder {
+              opacity: 1;
+              color: currentColor;
+            }
         </style>
     </section>
 
@@ -87,11 +164,12 @@ h1::selection {}
             </ul>
             <div class="marker-item">Some regular DIV or ::before/::after with <code>display: list-item</code></div>
         </p>
-        <p class="note note_bottom">⚠️ Very reduced list of CSS properties to edit</p>
+        <p class="note note_bottom">⚠️ Very reduced list of CSS properties to edit. No margins and paddings, but you can animate :) </p>
         <style>
             .marker-item { display: list-item; }
             .marker-item::before { content: none!important; }
-            .marker-item::marker { display: inline-block; content: '😄mrk'; color: red; font-size: 1.2em; }
+            .marker-item::marker { display: inline-block; content: '😄mrk'; color: red; font-size: 1.2em; transition: all .3s ease-in-out;}
+            .marker-item:hover::marker { color: blue; }
         </style>
         <div class="copyright">
             <a href="https://www.w3.org/TR/css-pseudo-4/#marker-pseudo">Marker-pseudo on W3C Working draft</a>
@@ -123,6 +201,7 @@ h1::selection {}
 
     <section class="slide">
         <h2><code>::backdrop</code></h2>
+        <p>It helps you to decorate background of dialog and elements that are open on fullscreen</p>
         <p><button id="backdrop-button">Open dialog</button></p>
         <dialog id="dialog">
             Some awesome dialog
@@ -169,62 +248,67 @@ h1::selection {}
     </section>
 
     <section class="slide">
-        <h2>Pseudo-classes</h2>
-        <p>A pseudo-class is a keyword added to a selector that specifies a special state of the selected element(s).</p>
-        <pre class="cover">
-            <code class="language-css">
-h1:hover,
-h1:empty,
-h1:target {}
-            </code>
-        </pre>
-        <div class="copyright">
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
-        </div>
+      <h2>What we can do with styling</h2>
+      <ul>
+        <li>color</li>
+        <li>background-color</li>
+        <li>cursor</li>
+        <li>caret-color</li>
+        <li>text-decoration and its associated properties</li>
+        <li>text-shadow</li>
+        <li>stroke-color, fill-color, and stroke-width</li>
+      </ul>
+    </section>
+    <section class="slide">
+      <h2>What we can do with styling</h2>
+      <ul>
+        <li>color</li>
+        <li>background-color</li>
+        <li style="text-decoration: line-through;">cursor</li>
+        <li style="text-decoration: line-through;">caret-color</li>
+        <li style="text-decoration: line-through;">text-decoration and its associated properties</li>
+        <li style="text-decoration: line-through;">text-shadow</li>
+        <li style="text-decoration: line-through;">stroke-color, fill-color, and stroke-width</li>
+      </ul>
     </section>
 
     <section class="slide">
-        <h2>Based on user actions</h2>
-        <ul>
-            <li><code>:hover</code></li>
-            <li><code>:focus</code></li>
-            <li><code>:focus-within</code></li>
-            <li><code>:focus-visible</code></li>
-            <li><code>:active</code></li>
-        </ul>
-        <div class="copyright">
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
-        </div>
+      <h2>Cascading with selection</h2>
+      <p>Why important to use <code>:root</code> :) </p>
+      <iframe width="100%" height="300" src="//jsfiddle.net/b2p5sd4e/3/embedded/html,css,result/" allowfullscreen="allowfullscreen" loading="lazy" frameborder="0"></iframe>
+      <div class="copyright">
+        <a href="https://www.w3.org/TR/css-pseudo-4/#example-97480f68">Cascading with selection example on W3C</a>
+      </div>
     </section>
 
     <section class="slide">
-        <h2>Based on tree structure</h2>
-        <ul>
-            <li><code>:root</code></li>
-            <li><code>:empty</code></li>
-            <li><code>:only-child</code></li>
-            <li><code>:only-of-type</code></li>
-            <li><code>:nth-/:nth-last/:last-/:first -child</code></li>
-            <li><code>:nth-/:nth-last/:last-/:first -of-type</code></li>
-        </ul>
-        <div class="copyright">
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
-        </div>
+      <h2>Next: Highlight API</h2>
+      <p>::highlight(custom-highlight-name){ }</p>
+      <pre>
+        <code>
+const r = new Range();
+r.setStart(document.body, 0);
+r.setEnd(document.body, 2);
+
+CSS.highlights.set("custom-highlight-name", new Highlight(r));
+        </code>
+      </pre>
+      <div class="copyright">
+        <a href="https://drafts.csswg.org/css-highlight-api-1/#custom-highlight-pseudo">Highlight API Draft</a>
+      </div>
     </section>
 
     <section class="slide">
-        <h2>Based on tree structure</h2>
-        <ul>
-            <li><code>:root</code></li>
-            <li><code>:empty</code></li>
-            <li><code>:only-child</code></li>
-            <li><code>:only-of-type</code></li>
-            <li><code>:nth-/:nth-last/:last-/:first -child</code></li>
-            <li><code>:nth-/:nth-last/:last-/:first -of-type</code></li>
-        </ul>
-        <div class="copyright">
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes">Pseudo-classes on MDN</a>
-        </div>
+      <h2>Next: Highlight API</h2>
+      <iframe width="100%" height="300" src="//jsfiddle.net/e9djvaph/5/embedded/html,css,js,result" allowfullscreen="allowfullscreen" frameborder="0" loading="lazy"></iframe>
+      <ul>
+        <li><a href="https://www.azabani.com/2022/09/01/meet-the-css-highlight-pseudos.html" target="_blank">Meet the CSS highlight pseudos</a></li>
+        <li><a href="https://www.azabani.com/2021/05/17/spelling-grammar.html" target="_blank">Chromium spelling and grammar features</a></li>
+      </ul>
+    </section>
+
+    <section class="slide title">
+      <h2>Thanks</h2>
     </section>
 
     <footer class="badge">
